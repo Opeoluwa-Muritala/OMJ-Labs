@@ -1,0 +1,11 @@
+portfolio/
+.codex/
+.openai/
+.impeccable/
+.impeccable-cache/
+.playwright-cli/
+output/
+tmp/
+__pycache__/
+config.bat
+node_modules
