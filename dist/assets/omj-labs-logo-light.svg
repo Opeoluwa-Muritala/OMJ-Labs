@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 112" role="img" aria-labelledby="title">
+  <title id="title">OMJ Labs</title>
+  <path d="M77 18a38 38 0 1 0 10 42" fill="none" stroke="#d5ef82" stroke-width="7" stroke-linecap="round"/>
+  <path d="M27 64V39l15 17 15-17v25M73 38v25c0 9-6 14-16 14" fill="none" stroke="#d5ef82" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="82" cy="24" r="5" fill="#d5ef82"/>
+  <text x="112" y="69" fill="#f5f5ed" font-family="Arial,sans-serif" font-size="66" font-weight="800" letter-spacing="-5">OMJ</text>
+  <text x="307" y="67" fill="#d5ef82" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="6">LABS</text>
+</svg>
