@@ -10,7 +10,7 @@ if (poster && !reducedMotion.matches) {
     const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
     camera.position.z = 5.4;
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'low-power' });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.7));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 760 ? 1.5 : 1.7));
     renderer.setClearColor(0x000000, 0);
     renderer.domElement.className = 'poster-canvas';
     renderer.domElement.setAttribute('aria-hidden', 'true');
@@ -38,8 +38,11 @@ if (poster && !reducedMotion.matches) {
       targetY = ((event.clientX - bounds.left) / bounds.width - 0.5) * 0.55;
     }, { passive: true });
     poster.addEventListener('pointerleave', () => { targetX = 0; targetY = 0; });
+    let posterVisible = true;
+    const posterIO = new IntersectionObserver(([entry]) => { posterVisible = entry.isIntersecting; }, { rootMargin: '120px' });
+    posterIO.observe(poster);
     const render = () => {
-      if (document.hidden || !poster.isConnected) {
+      if (document.hidden || !poster.isConnected || !posterVisible) {
         frame = requestAnimationFrame(render);
         return;
       }
@@ -54,6 +57,7 @@ if (poster && !reducedMotion.matches) {
     window.addEventListener('pagehide', () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
+      posterIO.disconnect();
       geometry.dispose();
       material.dispose();
       renderer.dispose();
@@ -69,7 +73,7 @@ if (studio && !reducedMotion.matches) {
     const camera = new THREE.PerspectiveCamera(40, 1, .1, 100);
     camera.position.z = 5.5;
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'low-power' });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 760 ? 1.25 : 1.5));
     renderer.domElement.className = 'studio-canvas';
     renderer.domElement.setAttribute('aria-hidden', 'true');
     studio.append(renderer.domElement);
@@ -81,8 +85,11 @@ if (studio && !reducedMotion.matches) {
     const resize = () => renderer.setSize(renderer.domElement.clientWidth, renderer.domElement.clientHeight, false);
     const observer = new ResizeObserver(resize);
     observer.observe(renderer.domElement);
+    let studioVisible = true;
+    const studioIO = new IntersectionObserver(([entry]) => { studioVisible = entry.isIntersecting; }, { rootMargin: '120px' });
+    studioIO.observe(studio);
     const render = () => {
-      if (document.hidden) { frame = requestAnimationFrame(render); return; }
+      if (document.hidden || !studioVisible) { frame = requestAnimationFrame(render); return; }
       knot.rotation.x += .0012;
       knot.rotation.y += .0018;
       renderer.render(scene, camera);
@@ -90,7 +97,7 @@ if (studio && !reducedMotion.matches) {
     };
     resize();
     render();
-    window.addEventListener('pagehide', () => { cancelAnimationFrame(frame); observer.disconnect(); geometry.dispose(); material.dispose(); renderer.dispose(); }, { once: true });
+    window.addEventListener('pagehide', () => { cancelAnimationFrame(frame); observer.disconnect(); studioIO.disconnect(); geometry.dispose(); material.dispose(); renderer.dispose(); }, { once: true });
   } catch {
     // Static studio typography remains available without WebGL.
   }
