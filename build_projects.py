@@ -81,7 +81,10 @@ for number, ((slug, title, tagline, description, features, live), card) in enume
     live_screen = f'<figure class="live-screen"><img src="../assets/previews/{slug}.png" alt="Current public landing screen of {escape(title)}" loading="lazy"><figcaption>Live product screen / <a href="{escape(live)}" target="_blank" rel="noopener noreferrer">Open website ↗</a></figcaption></figure>' if live and has_shot else ''
     if slug == 'scholarnavigate':
         live_screen = '<div class="mobile-screens" aria-label="Screenshots from the ScholarNavigate repository">' + ''.join(f'<figure><img src="../assets/previews/scholarnavigate-{name}.jpg" alt="ScholarNavigate {name} screen" loading="lazy"><figcaption>{name.title()} / repository screenshot</figcaption></figure>' for name in ['login', 'dashboard', 'calendar', 'timer']) + '</div>'
-    preview_intro = 'Screenshots from the project repository, followed by concept screens showing the main flows.' if slug == 'scholarnavigate' else ('A captured screen from the live product, followed by concept screens illustrating the main parts of the experience.' if live and has_shot else 'Concept screens illustrating the main parts of the experience.')
+    if live:
+        live_screen = f'<div class="live-frame"><iframe src="{escape(live)}" title="Live {escape(title)} website" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><p class="frame-note">Not loading? <a href="{escape(live)}" target="_blank" rel="noopener noreferrer">Open the live site ↗</a></p>'
+        screens = ''
+    preview_intro = 'Screenshots from the project repository, followed by concept screens showing the main flows.' if slug == 'scholarnavigate' else ('The live website, embedded below.' if live else 'Concept screens illustrating the main parts of the experience.')
     previous = PROJECTS[number - 2] if number > 1 else PROJECTS[-1]
     next_project = PROJECTS[number] if number < len(PROJECTS) else PROJECTS[0]
     page = f'''<!doctype html>
