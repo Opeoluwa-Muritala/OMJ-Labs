@@ -146,7 +146,7 @@ h1,h2,h3,p{margin-top:0}.hero h1,.work-heading h2,.studio-main h2,.experience-he
 .loader-art{position:relative;width:min(230px,62vw);height:min(230px,62vw);display:grid;place-items:center}
 .loader-art:before{content:"";position:absolute;width:72%;height:72%;border:1px solid #d5ef8266;border-radius:50%;transform:rotate(-20deg);animation:loader-orbit 1.8s linear infinite}
 .loader-art img{width:36%;height:36%;position:relative;z-index:2;filter:drop-shadow(0 0 12px #d5ef8255)}
-.loader-canvas{position:absolute;inset:0;z-index:1;pointer-events:none}
+.loader-canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none}
 .loader-stage>strong{font-family:var(--display);font-size:37px;letter-spacing:-.06em;line-height:1}.loader-stage>strong span{color:var(--acid)}
 .loader-stage>small{font-size:10px;font-weight:800;letter-spacing:.18em;color:#b9c8bc;margin-top:12px}
 .loader-track{width:195px;height:2px;background:#3b4d45;margin-top:34px;overflow:hidden}.loader-track i{display:block;width:35%;height:100%;background:var(--acid);animation:loader-progress .85s ease-out forwards}
@@ -180,3 +180,6 @@ h1,h2,h3,p{margin-top:0}.hero h1,.work-heading h2,.studio-main h2,.experience-he
 .frame-note{margin:12px 0 0;font-size:13px;opacity:.75}
 .frame-note a{color:inherit}
 @media(max-width:560px){.live-frame{aspect-ratio:9/16;max-height:82vh;margin:0 auto}.preview-grid{display:none}}
+
+/* ShopPal sits beside the GDGOC card on tablet and desktop */
+@media(min-width:561px){.project-shoppal{grid-column:span 6;display:block;grid-template-columns:none}.project-shoppal .project-visual{height:300px}.project-shoppal .project-content{padding:28px}}
