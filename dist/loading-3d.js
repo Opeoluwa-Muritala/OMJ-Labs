@@ -12,10 +12,11 @@ if (loader) {
     try {
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(38, 1, .1, 100);
-      camera.position.z = 6;
+      camera.position.z = 7.3;
       const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'low-power' });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-      renderer.setSize(230, 230, false);
+      const artSize = art.clientWidth || 230;
+      renderer.setSize(artSize, artSize);
       renderer.domElement.className = 'loader-canvas';
       renderer.domElement.setAttribute('aria-hidden', 'true');
       art.prepend(renderer.domElement);
@@ -31,10 +32,14 @@ if (loader) {
       smallerRing.rotation.y = .8;
       scene.add(ring, smallerRing);
       let frame = 0;
+      let last = performance.now();
       const render = () => {
-        ring.rotation.y += .02;
-        ring.rotation.z += .005;
-        smallerRing.rotation.x -= .014;
+        const now = performance.now();
+        const dt = Math.min((now - last) / 1000, .1);
+        last = now;
+        ring.rotation.y += dt * 1.2;
+        ring.rotation.z += dt * .3;
+        smallerRing.rotation.x -= dt * .84;
         renderer.render(scene, camera);
         frame = requestAnimationFrame(render);
       };

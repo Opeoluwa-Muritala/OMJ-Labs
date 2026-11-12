@@ -19,11 +19,13 @@ PROJECTS = [
     ("songs-of-the-kingdom", "Songs of the Kingdom", "A quiet place for familiar songs.", "An offline-first Android hymnal with a public-domain catalog. Search, reader settings, and persistent favorites keep the reading experience useful without a connection.", ["Find a song", "Read offline", "Save favorites"], None),
     ("new-kuz", "New_Kuz", "Connection, made immediate.", "A real-time messaging app for the KUZ community. The Android project uses Kotlin and Jetpack Compose, with Firebase Authentication and Firestore for account and message flows and Room for local chat storage.", ["Sign in", "Message someone", "Manage chats"], None),
     ("shoppal", "ShopPal", "Commerce in the conversation.", "A conversational commerce platform for Nigerian merchants. A vendor portal supports catalog and order management while WhatsApp chat helps shoppers discover products.", ["Manage a catalog", "Discover in chat", "Follow orders"], "https://shoppals.omjlabs.com/"),
+    ("gdgoc-contribution", "GDGOC Contribution Project", "Edit a website without writing code.", "A form that lets people edit the GDG on Campus Unilorin Resource Hub without writing code or using GitHub. Each suggestion is saved as a pull request on a branch, reviewed, and merged, and the site redeploys with the change.", ["Suggest an edit", "Review the pull request", "Live after merge"], "https://gdgocresourcehubeditor.vercel.app/"),
     ("aptus", "Aptus", "Find the fit.", "A recruitment and assessment portal for job applications, candidate screening, timed assessments, interviews, documents, and offers. Candidates and hiring teams each have a workspace for the process.", ["Apply for roles", "Take assessments", "Manage interviews"], "https://aptus.omjlabs.com/"),
 ]
 
 index = INDEX.read_text(encoding="utf-8")
 index = index.replace("Ten selected builds.", "Eleven selected builds.").replace("All <span>10</span>", "All <span>11</span>")
+index = index.replace("Eleven selected builds.", "Twelve selected builds.").replace("All <span>11</span>", "All <span>12</span>")
 
 shop_card = '''          <article class="project-card project-shoppal" data-repo="ShopPal" data-categories="systems">
             <div class="project-visual visual-shoppal" aria-hidden="true"><div class="visual-caption"><span>CONVERSATIONAL COMMERCE</span><span>10</span></div><div class="shop-chat"><span>Find what you need.</span><strong>SHOP<span>PAL</span></strong><small>SELL IN THE CONVERSATION</small></div><div class="shop-dots"><i></i><i></i><i></i></div><span class="visual-footnote">Concept visual / commerce in chat</span></div>
@@ -37,6 +39,16 @@ new_kuz_card = '''          <article class="project-card project-newkuz" data-re
             <div class="project-visual visual-newkuz" aria-hidden="true"><div class="visual-caption"><span>KUZ CHAT / ANDROID</span><span>09</span></div><div class="newkuz-mark"><img src="./assets/previews/new-kuz-logo.png" alt="" loading="lazy" /></div><span class="visual-footnote">KUZ identity / from the app repository</span></div>
             <div class="project-content"><div class="project-topline"><span>09 / Communication</span><span class="repo-meta">Kotlin / GitHub</span></div><h3>New_Kuz</h3><p>A real-time messaging app for the KUZ community, built with Kotlin, Jetpack Compose, Firebase, and Room.</p><div class="project-bottom"><div class="stack"><span>Kotlin</span><span>Compose</span><span>Firebase</span></div><a class="source-link" href="https://github.com/Opeoluwa-Muritala/New_Kuz" target="_blank" rel="noopener noreferrer" aria-label="View New_Kuz source on GitHub">Source</a></div></div>
           </article>'''
+gdgoc_card = '''          <article class="project-card project-gdgoc" data-repo="GDGOC-Contribution-Project" data-categories="systems open">
+            <div class="project-visual visual-gdgoc" aria-hidden="true"><div class="visual-caption"><span>COMMUNITY / NO CODE</span><span>11</span></div><div class="gdgoc-page"><div class="gdgoc-line"></div><div class="gdgoc-edit">Edit this text<span class="gdgoc-caret"></span></div><div class="gdgoc-cursor"><svg viewBox="0 0 24 24"><path d="M5 3l14 8-6 2 4 7-3 1-4-7-5 4z" fill="currentColor" stroke="#f7f1e3" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div class="gdgoc-line short"></div><div class="gdgoc-btn">Suggest edit</div></div><div class="gdgoc-pr">PR #12 · Ready for review</div><span class="visual-footnote">Concept visual · edit without code</span></div>
+            <div class="project-content"><div class="project-topline"><span>11 / Community</span><span class="repo-meta">Python · GitHub</span></div><h3><a class="project-title-link" href="./projects/gdgoc-contribution.html">GDGOC Contribution Project</a></h3><p>Edit a website without writing code. Each suggestion opens a GitHub pull request for review.</p><a class="case-link" href="./projects/gdgoc-contribution.html">View project story <span aria-hidden="true">↗</span></a><div class="project-bottom"><a class="source-link live-link" href="https://gdgocresourcehubeditor.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Open GDGOC Contribution Project live website">Live ↗</a><div class="stack"><span>Python</span><span>FastAPI</span><span>GitHub API</span></div><a class="source-link" href="https://github.com/Opeoluwa-Muritala/GDGOC-Contribution-Project" target="_blank" rel="noopener noreferrer" aria-label="View GDGOC Contribution Project source on GitHub">Source <svg class="arrow-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16 16 4M7 4h9v9" /></svg></a></div></div>
+          </article>
+'''
+if 'project-gdgoc' in index:
+    index = re.sub(r'<article class="project-card project-gdgoc".*?</article>\n', lambda m: gdgoc_card, index, count=1, flags=re.S)
+else:
+    index = re.sub(r'<article class="project-card project-recruit".*?</article>', lambda m: m.group(0) + "\n" + gdgoc_card.rstrip("\n"), index, count=1, flags=re.S)
+
 index = re.sub(r'<article class="project-card project-openchat".*?</article>', new_kuz_card.strip(), index, flags=re.S)
 index = re.sub(r'<article class="project-card project-newkuz".*?</article>', new_kuz_card.strip(), index, flags=re.S)
 
@@ -46,6 +58,12 @@ index = index.replace('<span class="recruit-r">R</span><div><span>RECRUITMENT</s
 index = index.replace('<span>10 / In the lab</span><span class="repo-meta">OMJ Labs product</span></div><h3>Recruitment AI</h3><p>A separate AI-native recruitment product from OMJ Labs. More product details will be added as they are confirmed.</p><div class="project-bottom"><div class="stack"><span>AI-native</span><span>Recruitment</span></div></div>', '<span>11 / Recruitment</span><span class="repo-meta">Python / GitHub</span></div><h3>Aptus</h3><p>A recruitment and assessment portal for applications, candidate screening, timed assessments, interviews, documents, and offers.</p><div class="project-bottom"><div class="stack"><span>Flask</span><span>PostgreSQL</span><span>Recruitment</span></div><a class="source-link" href="https://github.com/Opeoluwa-Muritala/Quizz" target="_blank" rel="noopener noreferrer">Source</a></div>')
 index = index.replace('Our work includes FieldCRM and a separate Recruitment AI product', 'Our work includes FieldCRM and Aptus, a recruitment and assessment product').replace('<strong>Recruitment AI</strong>', '<strong>Aptus</strong>')
 
+gd = re.search(r'<article class="project-card project-gdgoc".*?</article>', index, flags=re.S)
+if gd and index.find('project-gdgoc') > index.find('project-recruit') > 0:
+    index = index.replace(gd.group(0), '', 1)
+    rc = index.index('<article class="project-card project-recruit"')
+    index = index[:rc] + gd.group(0).lstrip() + '\n          ' + index[rc:]
+index = index.replace('<span>OMJ LABS / RECRUITMENT</span><span>11</span>', '<span>OMJ LABS / RECRUITMENT</span><span>12</span>').replace('<span>11 / Recruitment</span>', '<span>12 / Recruitment</span>')
 cards = re.findall(r'<article class="project-card\b.*?</article>', index, flags=re.S)
 if len(cards) != len(PROJECTS):
     raise RuntimeError(f"Expected {len(PROJECTS)} cards, found {len(cards)}")
@@ -65,10 +83,14 @@ for number, ((slug, title, tagline, description, features, live), card) in enume
     if source:
         links += f'<a class="detail-button detail-button-outline" href="{escape(source.group(1))}" target="_blank" rel="noopener noreferrer">Explore source ↗</a>'
     screens = ''.join(f'<div class="preview-screen"><div class="preview-bar"><span></span><span></span><span></span></div><div class="preview-body"><small>OMJ LABS / {number:02d}</small><strong>{escape(feature)}</strong><div class="preview-line"></div><div class="preview-line short"></div><div class="preview-block"></div><div class="preview-line"></div></div></div>' for feature in features)
-    live_screen = f'<figure class="live-screen"><img src="../assets/previews/{slug}.png" alt="Current public landing screen of {escape(title)}" loading="lazy"><figcaption>Live product screen / <a href="{escape(live)}" target="_blank" rel="noopener noreferrer">Open website ↗</a></figcaption></figure>' if live else ''
+    has_shot = (ROOT / "assets" / "previews" / f"{slug}.png").exists()
+    live_screen = f'<figure class="live-screen"><img src="../assets/previews/{slug}.png" alt="Current public landing screen of {escape(title)}" loading="lazy"><figcaption>Live product screen / <a href="{escape(live)}" target="_blank" rel="noopener noreferrer">Open website ↗</a></figcaption></figure>' if live and has_shot else ''
     if slug == 'scholarnavigate':
         live_screen = '<div class="mobile-screens" aria-label="Screenshots from the ScholarNavigate repository">' + ''.join(f'<figure><img src="../assets/previews/scholarnavigate-{name}.jpg" alt="ScholarNavigate {name} screen" loading="lazy"><figcaption>{name.title()} / repository screenshot</figcaption></figure>' for name in ['login', 'dashboard', 'calendar', 'timer']) + '</div>'
-    preview_intro = 'Screenshots from the project repository, followed by concept screens showing the main flows.' if slug == 'scholarnavigate' else ('A captured screen from the live product, followed by concept screens illustrating the main parts of the experience.' if live else 'Concept screens illustrating the main parts of the experience.')
+    if live:
+        live_screen = f'<div class="live-frame"><iframe src="{escape(live)}" title="Live {escape(title)} website" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><p class="frame-note">Not loading? <a href="{escape(live)}" target="_blank" rel="noopener noreferrer">Open the live site ↗</a></p>'
+        screens = ''
+    preview_intro = 'Screenshots from the project repository, followed by concept screens showing the main flows.' if slug == 'scholarnavigate' else ('The live website, embedded below.' if live else 'Concept screens illustrating the main parts of the experience.')
     previous = PROJECTS[number - 2] if number > 1 else PROJECTS[-1]
     next_project = PROJECTS[number] if number < len(PROJECTS) else PROJECTS[0]
     page = f'''<!doctype html>
